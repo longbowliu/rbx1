@@ -21,8 +21,8 @@ TrajectoryPlannerROS:
    pdist_scale: 0.85
    gdist_scale: 0.55
    meter_scoring: true
-   max_vel_theta: 0.3
-   min_vel_theta: -0.3
+   max_vel_theta: 0.2
+   min_vel_theta: -0.2
    heading_lookahead: 0.325
    heading_scoring: false
    heading_scoring_timestep: 0.8
