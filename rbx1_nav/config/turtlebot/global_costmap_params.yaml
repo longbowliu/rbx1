@@ -6,5 +6,5 @@ global_costmap:
    static_map: true
    rolling_window: false
    resolution: 0.01
-   transform_tolerance: 1.0
+   transform_tolerance: 5.0
    map_type: costmap
