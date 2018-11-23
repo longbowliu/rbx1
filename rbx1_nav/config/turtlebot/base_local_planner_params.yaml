@@ -23,8 +23,8 @@ TrajectoryPlannerROS:
    holonomic_robot: false
    
    latch_xy_goal_tolerance: false
-   pdist_scale: 0.85
-   gdist_scale: 0.55
+   pdist_scale: 0.55
+   gdist_scale: 0.85
    meter_scoring: true
   
    heading_lookahead: 0.325
