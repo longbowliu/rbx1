@@ -15,7 +15,7 @@ TrajectoryPlannerROS:
    
    max_vel_y: 0.0  # zero for a differential drive robot
    min_vel_y: 0.0
-   escape_vel: -0.1
+   escape_vel: -0.05
    acc_lim_x: 2.5
    acc_lim_y: 0.0 # zero for a differential drive robot
    acc_lim_theta: 3.2
@@ -23,8 +23,8 @@ TrajectoryPlannerROS:
    holonomic_robot: false
    
    latch_xy_goal_tolerance: false
-   pdist_scale: 0.55
-   gdist_scale: 0.85
+   pdist_scale: 0.70
+   gdist_scale: 0.65
    meter_scoring: true
   
    heading_lookahead: 0.325
