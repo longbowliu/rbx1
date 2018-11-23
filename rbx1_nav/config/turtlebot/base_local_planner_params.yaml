@@ -23,14 +23,14 @@ TrajectoryPlannerROS:
    holonomic_robot: false
    
    latch_xy_goal_tolerance: false
-   pdist_scale: 0.70
-   gdist_scale: 0.65
+   pdist_scale: 0.8
+   gdist_scale: 0.4
    meter_scoring: true
   
    heading_lookahead: 0.325
    heading_scoring: false
    heading_scoring_timestep: 0.8
-   occdist_scale: 0.1
+   occdist_scale: 0.3
    oscillation_reset_dist: 0.05
    publish_cost_grid_pc: false
    prune_plan: true
