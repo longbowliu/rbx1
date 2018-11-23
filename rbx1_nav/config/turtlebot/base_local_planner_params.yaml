@@ -10,7 +10,7 @@ TrajectoryPlannerROS:
    max_vel_theta: 0.2
    min_vel_theta: -0.2
    yaw_goal_tolerance: 0.5 # radian
-   xy_goal_tolerance: 0.2  # 10 cm
+   xy_goal_tolerance: 0.5  # 10 cm
    
    
    max_vel_y: 0.0  # zero for a differential drive robot
