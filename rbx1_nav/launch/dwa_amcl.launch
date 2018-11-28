@@ -1,11 +1,12 @@
 <launch>
-
+   <include file="$(find llb_nav)/launch/fake_llb_car.launch" />
+   <include file="$(find rplidar_ros)/launch/rplidar.launch" />
   <param name="use_sim_time" value="false" />
   
   <!-- EDIT THIS LINE TO REFLECT THE NAME OF YOUR OWN MAP FILE 
        Can also be overridden on the command line -->
   <arg name="map" default="test_map.yaml" />
-
+  
   <!-- Run the map server with the desired map -->
   <node name="map_server" pkg="map_server" type="map_server" args="$(find rbx1_nav)/maps/$(arg map)"/>
 
@@ -21,5 +22,5 @@
 
   <!-- Fire up AMCL -->
   <include file="$(find rbx1_nav)/launch/tb_amcl.launch" />
-  
+
 </launch>
