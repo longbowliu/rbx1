@@ -48,7 +48,7 @@ trans_stopped_vel: 0.1
 ##################################
 
 # The tolerance in radians for the controller in yaw/rotation when achieving its goal (double, default: 0.05)
-yaw_goal_tolerance: 1.0
+yaw_goal_tolerance: 6.28
 
 # The tolerance in meters for the controller in the x & y distance when achieving a goal (double, default: 0.10)
 xy_goal_tolerance: 0.2
