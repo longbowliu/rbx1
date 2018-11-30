@@ -1,0 +1,27 @@
+<launch>
+   <include file="$(find llb_nav)/launch/rplidar_camera_car.launch" />
+   <include file="$(find rplidar_ros)/launch/rplidar.launch" />
+   <include file="$(find astra_launch)/launch/astra.launch" />
+  <param name="use_sim_time" value="false" />
+  
+  <!-- EDIT THIS LINE TO REFLECT THE NAME OF YOUR OWN MAP FILE 
+       Can also be overridden on the command line -->
+  <arg name="map" default="test_map.yaml" />
+  
+  <!-- Run the map server with the desired map -->
+  <node name="map_server" pkg="map_server" type="map_server" args="$(find rbx1_nav)/maps/$(arg map)"/>
+
+  <!-- Start move_base  -->
+  <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
+    <rosparam file="$(find rbx1_nav)/config/dwa/move_base_params.yaml" command="load" />
+    <rosparam file="$(find rbx1_nav)/config/dwa/global_costmap_params.yaml" command="load" ns="global_costmap"/>
+    <rosparam file="$(find rbx1_nav)/config/dwa/local_costmap_params.yaml" command="load" ns="local_costmap"/>
+    <rosparam file="$(find rbx1_nav)/config/dwa/global_planner_params.yaml" command="load" ns="GlobalPlanner"/>
+    <rosparam file="$(find rbx1_nav)/config/dwa/dwa_local_planner_params.yaml" command="load" ns="DWAPlannerROS"/>
+    <remap from="/move_base/GlobalPlanner/plan" to="/move_base/NavfnROS/plan"/>
+  </node>
+
+  <!-- Fire up AMCL -->
+  <include file="$(find rbx1_nav)/launch/tb_amcl.launch" />
+
+</launch>
