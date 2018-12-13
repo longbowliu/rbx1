@@ -27,11 +27,16 @@
 import rospy
 import actionlib
 from actionlib_msgs.msg import *
-from geometry_msgs.msg import Pose, PoseWithCovarianceStamped, Point, Quaternion, Twist
+from geometry_msgs.msg import Pose, PoseWithCovarianceStamped, Point, Quaternion, Twist,PoseStamped
+
 from move_base_msgs.msg import MoveBaseAction, MoveBaseGoal
 from random import sample
 from math import pow, sqrt
 from std_msgs.msg import String
+from nav_msgs.msg import Path
+#include <geometry_msgs/Quaternion.h>
+#include <geometry_msgs/PoseStamped.h>
+#include <nav_msgs/Path.h>
 
 class NavTest():
     def __init__(self):
@@ -57,13 +62,19 @@ class NavTest():
         # Pose coordinates are then displayed in the terminal
         # that was used to launch RViz.
         self.locations = dict()
-        
+        '''
+        走廊门口：-3.2529；-3.98846;0  0;0；-0.23051;0.97307
+        休息室：7.5777；-5.6911;9  0;0;0.19;0.98178
+        大会议室：5.4494;-1.7682;0  0;0;0.0298;0.9995
+        机房： -4.5465;0.5764;0  0;0;0.8645;0.50263
+        回来：0.12243,0.0079,0  0,0,-0.2534,0.9673
+        '''
         self.locations['small_meeting'] = Pose(Point(0.95936,1.8196,0.0), Quaternion(0.000, 0.000, 0.22139,0.97519))
-        self.locations['hall_kitchen'] = Pose(Point(-1.994, 4.382, 0.000), Quaternion(0.000, 0.000, -0.670, 0.743))
+        self.locations['rest'] = Pose(Point(7.5777, -5.6911, 0.000), Quaternion(0.000, 0.000, 0.19,0.98178))
         self.locations['hall_bedroom'] = Pose(Point(-3.719, 4.401, 0.000), Quaternion(0.000, 0.000, 0.733, 0.680))
-        self.locations['living_room_1'] = Pose(Point(0.720, 2.229, 0.000), Quaternion(0.000, 0.000, 0.786, 0.618))
-        self.locations['living_room_2'] = Pose(Point(1.471, 1.007, 0.000), Quaternion(0.000, 0.000, 0.480, 0.877))
-        self.locations['dining_room_1'] = Pose(Point(-0.861, -0.019, 0.000), Quaternion(0.000, 0.000, 0.892, -0.451))
+        self.locations['big_meeting'] = Pose(Point(5.4494,-1.7682, 0.000), Quaternion(0.000, 0.000, 0.0298,0.9995))
+        self.locations['jifang'] = Pose(Point(-4.5465,0.5764, 0.000), Quaternion(0.000, 0.000, 0.8645,0.50263))
+        self.locations['comeback'] = Pose(Point(0.12243,0.0079,0), Quaternion( 0,0,-0.2534,0.9673))
         
         # Publisher to manually control the robot (e.g. to stop it, queue_size=5)
         self.cmd_vel_pub = rospy.Publisher('cmd_vel', Twist, queue_size=5)
@@ -100,6 +111,7 @@ class NavTest():
 #         rospy.Subscriber('initialpose', PoseWithCovarianceStamped, self.update_initial_pose)
         rospy.loginfo("*** Rog_result")
         rospy.Subscriber('Rog_result', String, self.speech_command)
+        rospy.Subscriber('nav_multi', Path , self.cb_nav_multi)
         
         '''
         rospy.wait_for_message('initialpose', PoseWithCovarianceStamped)
@@ -189,24 +201,18 @@ class NavTest():
                           " min Distance: " + str(trunc(distance_traveled, 1)) + " m")
             rospy.sleep(self.rest_time)
         '''
-    def speech_command(self,command): 
-        #self.command = command   
-        print    command.data;
-        if command.data == "开始导航":
-            print "ok"
-        
-        if command.data == "去小会议室":
-            #locations['small_meeting']
-            print "ok111"
-            self.setpose_pub.publish("好的主人 我马上就去小会议室")
-           
+    def cb_nav_multi(self,path): 
+        print len(path.poses)
+        for PoseStamped in path.poses:
+            print PoseStamped.pose.position
             self.goal = MoveBaseGoal()
-            self.goal.target_pose.pose = self.locations['small_meeting']
+#             self.goal.target_pose.pose = self.locations['small_meeting']
+            self.goal.target_pose.pose = PoseStamped.pose
             self.goal.target_pose.header.frame_id = 'map'
             self.goal.target_pose.header.stamp = rospy.Time.now()
             
             # Let the user know where the robot is going next
-            rospy.loginfo("Going to: small_meeting")
+            rospy.loginfo("Going to longbow")
             
             # Start the robot toward the next location
             self.move_base.send_goal(self.goal)
@@ -222,15 +228,66 @@ class NavTest():
                 state = self.move_base.get_state()
                 if state == GoalStatus.SUCCEEDED:
                     rospy.loginfo("Goal succeeded!")
-                    self.setpose_pub.publish("我已经到达小会议室了 主人")
-                    n_successes += 1
-                    distance_traveled += distance
+#                     self.setpose_pub.publish("我已经到达小会议室了 主人")
+#                     n_successes += 1
+#                     distance_traveled += distance
                     rospy.loginfo("State:" + str(state))
                 else:
                   rospy.loginfo("Goal failed with error code: " + str(self.goal_states[state]))
+        
+#         for in  path:
+        
+    def speech_command(self,command): 
+        #self.command = command   
+        print    command.data
+        if command.data == "开始导航":
+            print "ok"
+       
+        self.goal = MoveBaseGoal()
+        if command.data == "去小会议室":
+            self.goal.target_pose.pose = self.locations['small_meeting']
+            self.setpose_pub.publish("好的主人 我马上就去小会议室")
+        if command.data == "去大会议室":
+            self.goal.target_pose.pose = self.locations['big_meeting']
+            self.setpose_pub.publish("好的主人 我马上就去大会议室")
+        if command.data == "去休息室":
+            self.goal.target_pose.pose = self.locations['rest']
+            self.setpose_pub.publish("好的主人 我马上就休息室")
+        if command.data == "去机房":
+            self.goal.target_pose.pose = self.locations['jifang']
+            self.setpose_pub.publish("好的主人 我马上就去机房")
+        if command.data == "回来":
+            self.goal.target_pose.pose = self.locations['comeback']
+            self.setpose_pub.publish("好的主人 我马上回来")
+        
+        self.goal.target_pose.header.frame_id = 'map'
+        self.goal.target_pose.header.stamp = rospy.Time.now()
+        
+        # Let the user know where the robot is going next
+        rospy.loginfo("Going to: small_meeting")
+        
+        # Start the robot toward the next location
+        self.move_base.send_goal(self.goal)
+        
+        # Allow 5 minutes to get there
+        finished_within_time = self.move_base.wait_for_result(rospy.Duration(300)) 
+        
+        # Check for success or failure
+        if not finished_within_time:
+            self.move_base.cancel_goal()
+            rospy.loginfo("Timed out achieving goal")
+        else:
+            state = self.move_base.get_state()
+            if state == GoalStatus.SUCCEEDED:
+                rospy.loginfo("Goal succeeded!")
+                self.setpose_pub.publish("我已经到了 主人")
+#                 n_successes += 1
+#                 distance_traveled += distance
+                rospy.loginfo("State:" + str(state))
+            else:
+                self.setpose_pub.publish("没找到您说的地方，让我去其他地方吧")
+                rospy.loginfo("Goal failed with error code: " + str(self.goal_states[state]))
                   
-        else : 
-            print "no"
 
     def update_initial_pose(self, initial_pose):
         self.initial_pose = initial_pose
