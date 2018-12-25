@@ -93,80 +93,62 @@ Visualization Manager:
       Draw Behind: false
       Enabled: true
       Name: Map
-      Topic: /map
+      Topic: /robot1/map
       Unreliable: false
       Value: true
     - Alpha: 1
-      Class: rviz/RobotModel
-      Collision Enabled: false
+      Buffer Length: 1
+      Class: rviz/Path
+      Color: 25; 255; 0
       Enabled: true
-      Links:
-        All Links Enabled: true
-        Expand Joint Details: false
-        Expand Link Details: false
-        Expand Tree: false
-        Link Tree Style: Links in Alphabetic Order
-        base_l1_wheel_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        base_l2_wheel_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        base_laser_bottom:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        base_laser_middle:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        base_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        base_r1_wheel_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        base_r2_wheel_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        camera_depth_frame:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        camera_depth_optical_frame:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        camera_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        laser:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-      Name: RobotModel
-      Robot Description: robot_description
-      TF Prefix: ""
-      Update Interval: 0
+      Head Diameter: 0.3
+      Head Length: 0.2
+      Length: 0.3
+      Line Style: Lines
+      Line Width: 0.03
+      Name: Path
+      Offset:
+        X: 0
+        Y: 0
+        Z: 0
+      Pose Color: 255; 85; 255
+      Pose Style: None
+      Radius: 0.03
+      Shaft Diameter: 0.1
+      Shaft Length: 0.1
+      Topic: /robot1/move_base/GlobalPlanner/plan
+      Unreliable: false
       Value: true
-      Visual Enabled: true
+    - Alpha: 1
+      Autocompute Intensity Bounds: true
+      Autocompute Value Bounds:
+        Max Value: 10
+        Min Value: -10
+        Value: true
+      Axis: Z
+      Channel Name: intensity
+      Class: rviz/LaserScan
+      Color: 255; 255; 255
+      Color Transformer: Intensity
+      Decay Time: 0
+      Enabled: true
+      Invert Rainbow: false
+      Max Color: 255; 255; 255
+      Max Intensity: 47
+      Min Color: 0; 0; 0
+      Min Intensity: 47
+      Name: LaserScan
+      Position Transformer: XYZ
+      Queue Size: 10
+      Selectable: true
+      Size (Pixels): 3
+      Size (m): 0.01
+      Style: Flat Squares
+      Topic: /robot1/scan
+      Unreliable: false
+      Use Fixed Frame: true
+      Use rainbow: true
+      Value: true
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
@@ -190,34 +172,26 @@ Visualization Manager:
     - Class: rviz_plugin_tutorials/PlantFlag
       Flags:
         - Name: "Robot2 : 1"
-          X: -3.28698
-          Y: 1.53329
+          X: -3.50806
+          Y: -1.38644
           Z: 0
-        - Name: "Robot1 : 3"
-          X: -1.58915
-          Y: -2.29158
+        - Name: "Robot2 : 2"
+          X: -1.37835
+          Y: 1.08079
           Z: 0
-        - Name: "Robot1 : 4"
-          X: 4.72093
-          Y: -2.88517
+        - Name: "Robot1 : 1"
+          X: 2.66475
+          Y: -1.0642
           Z: 0
-        - Name: "Robot2 : 4"
-          X: 2.48578
-          Y: -1.60181
-          Z: 0
-        - Name: "Robot1 : 5"
-          X: 6.57721
-          Y: -4.8714
-          Z: 0
-        - Name: "Robot1 : 6"
-          X: 1.29357
-          Y: 1.11029
+        - Name: "Robot1 : 2"
+          X: 1.62692
+          Y: -1.72608
           Z: 0
   Value: true
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 17.8325
+      Distance: 15.8788
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.06
         Stereo Focal Distance: 1
@@ -229,10 +203,10 @@ Visualization Manager:
         Z: 0.194091
       Name: Current View
       Near Clip Distance: 0.01
-      Pitch: 1.4648
+      Pitch: 1.4798
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 1.6154
+      Yaw: 1.5904
     Saved: ~
 Window Geometry:
   Displays:

@@ -34,6 +34,7 @@ from random import sample
 from math import pow, sqrt
 from std_msgs.msg import String
 from nav_msgs.msg import Path
+from rbx1_nav.msg import myPath
 #include <geometry_msgs/Quaternion.h>
 #include <geometry_msgs/PoseStamped.h>
 #include <nav_msgs/Path.h>
@@ -77,10 +78,10 @@ class NavTest():
         self.locations['comeback'] = Pose(Point(0.12243,0.0079,0), Quaternion( 0,0,-0.2534,0.9673))
         
         # Publisher to manually control the robot (e.g. to stop it, queue_size=5)
-        self.cmd_vel_pub = rospy.Publisher('cmd_vel', Twist, queue_size=5)
+        self.cmd_vel_pub = rospy.Publisher('robot1/cmd_vel', Twist, queue_size=5)
         
         # Subscribe to the move_base action server
-        self.move_base = actionlib.SimpleActionClient("move_base", MoveBaseAction)
+        self.move_base = actionlib.SimpleActionClient("robot1/move_base", MoveBaseAction)
         
         rospy.loginfo("Waiting for move_base action server...")
         
@@ -111,7 +112,8 @@ class NavTest():
 #         rospy.Subscriber('initialpose', PoseWithCovarianceStamped, self.update_initial_pose)
         rospy.loginfo("*** Rog_result")
         rospy.Subscriber('Rog_result', String, self.speech_command)
-        rospy.Subscriber('nav_multi', Path , self.cb_nav_multi)
+        rospy.Subscriber('nav_multi', myPath , self.cb_nav_multi)
+#         rospy.Subscriber('nav_str', Path , self.cb_nav_multi2)
         
         '''
         rospy.wait_for_message('initialpose', PoseWithCovarianceStamped)
@@ -201,9 +203,13 @@ class NavTest():
                           " min Distance: " + str(trunc(distance_traveled, 1)) + " m")
             rospy.sleep(self.rest_time)
         '''
-    def cb_nav_multi(self,path): 
-        print len(path.poses)
-        for PoseStamped in path.poses:
+    def cb_nav_multi2(self,path):
+        print "aaaaaaaaaaaa"
+    def cb_nav_multi(self,my_path): 
+        print "hello *********"
+        print len(my_path.path.poses)
+        robotName = my_path.name;
+        for PoseStamped in my_path.path.poses:
             print PoseStamped.pose.position
             self.goal = MoveBaseGoal()
 #             self.goal.target_pose.pose = self.locations['small_meeting']
