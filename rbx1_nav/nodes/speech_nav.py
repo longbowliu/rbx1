@@ -211,10 +211,10 @@ class NavTest():
     def cb_nav_multi2(self,path):
         print "aaaaaaaaaaaa"
     def cb_nav_multi(self,my_path): 
-        print "hello *********"
+#         print "hello *********"
         print len(my_path.path.poses)
         robotName = my_path.name;
-        
+        print "robot Name: "
         for PoseStamped in my_path.path.poses:
             print PoseStamped.pose.position
             self.goal = MoveBaseGoal()
