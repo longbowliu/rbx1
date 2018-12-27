@@ -214,7 +214,7 @@ class NavTest():
 #         print "hello *********"
         print len(my_path.path.poses)
         robotName = my_path.name;
-        print "robot Name: "
+        print "robot Name: ",robotName
         for PoseStamped in my_path.path.poses:
             print PoseStamped.pose.position
             self.goal = MoveBaseGoal()
@@ -227,7 +227,7 @@ class NavTest():
             rospy.loginfo("Going to longbow")
             
             # Start the robot toward the next location
-            if robotName == "robot1" :
+            if robotName == "Robot1" :
                 self.move_base.send_goal(self.goal)
                 finished_within_time = self.move_base.wait_for_result(rospy.Duration(300)) 
                 if not finished_within_time:
