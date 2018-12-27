@@ -241,7 +241,7 @@ class NavTest():
                     else:
                       rospy.loginfo("Goal failed with error code: " + str(self.goal_states[state]))
             else:
-                elf.move_base2.send_goal(self.goal)
+                self.move_base2.send_goal(self.goal)
                 finished_within_time = self.move_base2.wait_for_result(rospy.Duration(300)) 
                 if not finished_within_time:
                     self.move_base2.cancel_goal()
