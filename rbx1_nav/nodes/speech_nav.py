@@ -83,6 +83,11 @@ class NavTest():
         # Subscribe to the move_base action server
         self.move_base = actionlib.SimpleActionClient("robot1/move_base", MoveBaseAction)
         
+        self.cmd_vel_pub2 = rospy.Publisher('cmd_vel', Twist, queue_size=5)
+        
+        # Subscribe to the move_base action server
+        self.move_base2 = actionlib.SimpleActionClient("move_base", MoveBaseAction)
+        
         rospy.loginfo("Waiting for move_base action server...")
         
         # Wait 60 seconds for the action server to become available
@@ -209,6 +214,7 @@ class NavTest():
         print "hello *********"
         print len(my_path.path.poses)
         robotName = my_path.name;
+        
         for PoseStamped in my_path.path.poses:
             print PoseStamped.pose.position
             self.goal = MoveBaseGoal()
@@ -221,25 +227,32 @@ class NavTest():
             rospy.loginfo("Going to longbow")
             
             # Start the robot toward the next location
-            self.move_base.send_goal(self.goal)
-            
-            # Allow 5 minutes to get there
-            finished_within_time = self.move_base.wait_for_result(rospy.Duration(300)) 
-            
-            # Check for success or failure
-            if not finished_within_time:
-                self.move_base.cancel_goal()
-                rospy.loginfo("Timed out achieving goal")
-            else:
-                state = self.move_base.get_state()
-                if state == GoalStatus.SUCCEEDED:
-                    rospy.loginfo("Goal succeeded!")
-#                     self.setpose_pub.publish("我已经到达小会议室了 主人")
-#                     n_successes += 1
-#                     distance_traveled += distance
-                    rospy.loginfo("State:" + str(state))
+            if robotName == "robot1" :
+                self.move_base.send_goal(self.goal)
+                finished_within_time = self.move_base.wait_for_result(rospy.Duration(300)) 
+                if not finished_within_time:
+                    self.move_base.cancel_goal()
+                    rospy.loginfo("Timed out achieving goal")
                 else:
-                  rospy.loginfo("Goal failed with error code: " + str(self.goal_states[state]))
+                    state = self.move_base.get_state()
+                    if state == GoalStatus.SUCCEEDED:
+                        rospy.loginfo("Goal succeeded!")
+                        rospy.loginfo("State:" + str(state))
+                    else:
+                      rospy.loginfo("Goal failed with error code: " + str(self.goal_states[state]))
+            else:
+                elf.move_base2.send_goal(self.goal)
+                finished_within_time = self.move_base2.wait_for_result(rospy.Duration(300)) 
+                if not finished_within_time:
+                    self.move_base2.cancel_goal()
+                    rospy.loginfo("Timed out achieving goal")
+                else:
+                    state = self.move_base2.get_state()
+                    if state == GoalStatus.SUCCEEDED:
+                        rospy.loginfo("Goal succeeded!")
+                        rospy.loginfo("State:" + str(state))
+                    else:
+                      rospy.loginfo("Goal failed with error code: " + str(self.goal_states[state]))
         
 #         for in  path:
         
