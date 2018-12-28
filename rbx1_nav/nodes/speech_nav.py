@@ -113,7 +113,7 @@ class NavTest():
         rospy.loginfo("*** Rog_result")
         rospy.Subscriber('Rog_result', String, self.speech_command)
         rospy.Subscriber('nav_multi', myPath , self.cb_nav_multi)
-#         rospy.Subscriber('nav_str', Path , self.cb_nav_multi2)
+        rospy.Subscriber('nav_test', myPath , self.cb_nav_multi2)
         
         '''
         rospy.wait_for_message('initialpose', PoseWithCovarianceStamped)
@@ -204,7 +204,27 @@ class NavTest():
             rospy.sleep(self.rest_time)
         '''
     def cb_nav_multi2(self,path):
-        print "aaaaaaaaaaaa"
+        robotName = my_path.name;
+        print "robot Name: ",robotName
+        print "position numbers :",len(my_path.path.poses)
+        for PoseStamped in my_path.path.poses:
+            print PoseStamped.pose.position
+            self.goal = MoveBaseGoal()
+            self.goal.target_pose.pose = PoseStamped.pose
+            self.goal.target_pose.header.frame_id = 'map'
+            self.goal.target_pose.header.stamp = rospy.Time.now()
+            self.move_base2.send_goal(self.goal)
+            finished_within_time = self.move_base2.wait_for_result(rospy.Duration(300)) 
+            if not finished_within_time:
+                self.move_base2.cancel_goal()
+                rospy.loginfo("Timed out achieving goal")
+            else:
+                state = self.move_base2.get_state()
+                if state == GoalStatus.SUCCEEDED:
+                    rospy.loginfo("Goal succeeded!")
+                    rospy.loginfo("State:" + str(state))
+                else:
+                  rospy.loginfo("Goal failed with error code: " + str(self.goal_states[state])) 
     def cb_nav_multi(self,my_path): 
 #         print "hello *********"
         print len(my_path.path.poses)
