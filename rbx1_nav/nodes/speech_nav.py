@@ -79,20 +79,15 @@ class NavTest():
         
         # Publisher to manually control the robot (e.g. to stop it, queue_size=5)
         self.cmd_vel_pub = rospy.Publisher('robot1/cmd_vel', Twist, queue_size=5)
-        
-        # Subscribe to the move_base action server
         self.move_base = actionlib.SimpleActionClient("robot1/move_base", MoveBaseAction)
+        rospy.loginfo("Waiting for move_base1 action server...")
+        self.move_base.wait_for_server(rospy.Duration(60))
+        rospy.loginfo("Connected to move base1 server")
         
         self.cmd_vel_pub2 = rospy.Publisher('cmd_vel', Twist, queue_size=5)
-        
-        # Subscribe to the move_base action server
         self.move_base2 = actionlib.SimpleActionClient("move_base", MoveBaseAction)
-        
-        rospy.loginfo("Waiting for move_base action server...")
-        
-        # Wait 60 seconds for the action server to become available
-        self.move_base.wait_for_server(rospy.Duration(60))
-        
+        rospy.loginfo("Waiting for move_base2 action server...")
+        self.move_base2.wait_for_server(rospy.Duration(60))
         rospy.loginfo("Connected to move base server")
         
         # A variable to hold the initial pose of the robot to be set by 
@@ -211,10 +206,10 @@ class NavTest():
     def cb_nav_multi2(self,path):
         print "aaaaaaaaaaaa"
     def cb_nav_multi(self,my_path): 
-        print "hello *********"
+#         print "hello *********"
         print len(my_path.path.poses)
         robotName = my_path.name;
-        
+        print "robot Name: ",robotName
         for PoseStamped in my_path.path.poses:
             print PoseStamped.pose.position
             self.goal = MoveBaseGoal()
@@ -227,7 +222,7 @@ class NavTest():
             rospy.loginfo("Going to longbow")
             
             # Start the robot toward the next location
-            if robotName == "robot1" :
+            if robotName == "Robot1" :
                 self.move_base.send_goal(self.goal)
                 finished_within_time = self.move_base.wait_for_result(rospy.Duration(300)) 
                 if not finished_within_time:
