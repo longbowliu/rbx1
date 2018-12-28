@@ -203,7 +203,7 @@ class NavTest():
                           " min Distance: " + str(trunc(distance_traveled, 1)) + " m")
             rospy.sleep(self.rest_time)
         '''
-    def cb_nav_multi2(self,path):
+    def cb_nav_multi2(self,my_path):
         robotName = my_path.name;
         print "robot Name: ",robotName
         print "position numbers :",len(my_path.path.poses)
