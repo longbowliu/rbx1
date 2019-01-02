@@ -1,7 +1,7 @@
 <launch>
 
   <arg name="use_map_topic" default="false"/>
-  <arg name="scan_topic" default="scan"/>
+  <arg name="scan_topic" default="robot1/scan"/>
 
   <node pkg="amcl" type="amcl" name="amcl" clear_params="true">
     <param name="use_map_topic" value="$(arg use_map_topic)"/>
