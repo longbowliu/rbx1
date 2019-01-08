@@ -1,10 +1,10 @@
 # ns : local_costmap
 
 # The global frame for the costmap to operate in. (string, default: "/map")
-global_frame: robot1/odom
+global_frame: odom
 
 # The name of the frame for the base link of the robot.(string, default: "base_link")
-robot_base_frame: robot1/base_link
+robot_base_frame: base_link
 
 # distance a circular robot should be clear of the obstacle (kobuki: 0.18)
 #robot_radius: 0.20  

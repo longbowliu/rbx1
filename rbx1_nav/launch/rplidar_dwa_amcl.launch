@@ -1,7 +1,10 @@
 <launch>
+<group ns="robot1">
+	<param name="tf_prefix" value="robot1_tf" />
    <include file="$(find llb_nav)/launch/rplidar_camera_car.launch" />
    <include file="$(find rplidar_ros)/launch/rplidar.launch" />
    <!--include file="$(find astra_launch)/launch/astra.launch" / -->
+ </group>
   <param name="use_sim_time" value="false" />
   
   <!-- EDIT THIS LINE TO REFLECT THE NAME OF YOUR OWN MAP FILE 
@@ -13,6 +16,10 @@
   	<param name="frame_id" value="/map" />
   </node>
   
+<group ns="robot1">
+	<param name="tf_prefix" value="robot1_tf" />
+	<param name="amcl/initial_pose_x" value="-1" />
+    <param name="amcl/initial_pose_y" value="1" />
   <!-- Fire up AMCL -->
   <include file="$(find rbx1_nav)/launch/tb_amcl.launch" />
   
@@ -28,11 +35,13 @@
     <remap from="/move_base/GlobalPlanner/plan" to="/move_base/NavfnROS/plan"/>
     <remap from="map" to="/map" />
   </node>
+ </group>
 
   
-  <!-- Start the navigation test -->
+  <!-- Start the navigation test 
   <node pkg="rbx1_nav" type="speech_nav.py" name="speech_nav" output="screen">
     <param name="rest_time" value="10" />
     <param name="fake_test" value="false" />
   </node>
+  -->
 </launch>
