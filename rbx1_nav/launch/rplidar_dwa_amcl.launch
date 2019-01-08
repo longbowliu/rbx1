@@ -1,7 +1,10 @@
 <launch>
 <group ns="robot1">
 	<param name="tf_prefix" value="robot1_tf" />
-   <include file="$(find llb_nav)/launch/rplidar_camera_car.launch" />
+   <include file="$(find llb_nav)/launch/rplidar_camera_car.launch" >
+   	 <arg name="init_pose" value="-x 1 -y 1 -z 0" />
+      <arg name="robot_name"  value="robot1" />
+   </include>
    <include file="$(find rplidar_ros)/launch/rplidar.launch" />
    <!--include file="$(find astra_launch)/launch/astra.launch" / -->
  </group>
@@ -20,21 +23,7 @@
 	<param name="tf_prefix" value="robot1_tf" />
 	<param name="amcl/initial_pose_x" value="-1" />
     <param name="amcl/initial_pose_y" value="1" />
-  <!-- Fire up AMCL -->
-  <include file="$(find rbx1_nav)/launch/tb_amcl.launch" />
-  
-  <!-- node pkg="tf" type="static_transform_publisher" name="odom_map_broadcaster" args="0 0 0 0 0 0 /map /robot1/odom 100" /
-  -->
-  <!-- Start move_base  -->
-  <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
-    <rosparam file="$(find rbx1_nav)/config/dwa/move_base_params.yaml" command="load" />
-    <rosparam file="$(find rbx1_nav)/config/dwa/global_costmap_params.yaml" command="load" ns="global_costmap"/>
-    <rosparam file="$(find rbx1_nav)/config/dwa/local_costmap_params.yaml" command="load" ns="local_costmap"/>
-    <rosparam file="$(find rbx1_nav)/config/dwa/global_planner_params.yaml" command="load" ns="GlobalPlanner"/>
-    <rosparam file="$(find rbx1_nav)/config/dwa/dwa_local_planner_params.yaml" command="load" ns="DWAPlannerROS"/>
-    <remap from="/move_base/GlobalPlanner/plan" to="/move_base/NavfnROS/plan"/>
-    <remap from="map" to="/map" />
-  </node>
+	<include file="$(find rbx1_nav)/launch/al_move_base.launch"
  </group>
 
   
