@@ -1,9 +1,7 @@
 <launch>
 <group ns="robot1">
-	<param name="tf_prefix" value="robot1_tf" />
+	<param name="tf_prefix" value="robot1" />
    <include file="$(find llb_nav)/launch/rplidar_camera_car.launch" >
-   	 <arg name="init_pose" value="-x 1 -y 1 -z 0" />
-      <arg name="robot_name"  value="robot1" />
    </include>
    <include file="$(find rplidar_ros)/launch/rplidar.launch" />
    <!--include file="$(find astra_launch)/launch/astra.launch" / -->
@@ -20,10 +18,10 @@
   </node>
   
 <group ns="robot1">
-	<param name="tf_prefix" value="robot1_tf" />
+	<param name="tf_prefix" value="robot1" />
 	<param name="amcl/initial_pose_x" value="-1" />
     <param name="amcl/initial_pose_y" value="1" />
-	<include file="$(find rbx1_nav)/launch/al_move_base.launch"
+	<include file="$(find rbx1_nav)/launch/al_move_base.launch"/>
  </group>
 
   
