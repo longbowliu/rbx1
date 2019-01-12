@@ -1,7 +1,7 @@
 <launch>
 
   <arg name="use_map_topic" default="false"/>
-  <arg name="scan_topic" default="scan"/>
+  <arg name="scan_topic" default="/scan"/>
 
   <node pkg="amcl" type="amcl" name="amcl" clear_params="true" output="screen">
     <param name="use_map_topic" value="$(arg use_map_topic)"/>
@@ -31,13 +31,17 @@
     <param name="laser_likelihood_max_dist" value="2.0"/>
     <param name="update_min_d" value="0.25"/>
     <param name="update_min_a" value="0.2"/>
-    <param name="odom_frame_id" value="odom"/>
+    <!-- *************SO IMPORTENT*************** -->
+    <param name="odom_frame_id" value="robot1/odom"/>  
+    <param name="base_frame_id" value="robot1/base_link"/>
+    
+      
     <param name="resample_interval" value="1"/>
     <!-- Increase tolerance because the computer can get quite busy -->
     <param name="transform_tolerance" value="5.0"/>
     <param name="recovery_alpha_slow" value="0.0"/>
     <param name="recovery_alpha_fast" value="0.0"/>
-    <remap from="scan" to="$(arg scan_topic)"/>
+    <!--remap from="scan" to="robot1/scan"/  NEED CHECK -->
     <remap from="map" to="/map"/>
     <remap from="static_map" to="/static_map"/>
   </node>

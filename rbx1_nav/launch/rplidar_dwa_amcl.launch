@@ -1,9 +1,10 @@
 <launch>
+ <include file="$(find rplidar_ros)/launch/rplidar.launch" />
 <group ns="robot1">
 	<param name="tf_prefix" value="robot1" />
    <include file="$(find llb_nav)/launch/rplidar_camera_car.launch" >
    </include>
-   <include file="$(find rplidar_ros)/launch/rplidar.launch" />
+  
    <!--include file="$(find astra_launch)/launch/astra.launch" / -->
  </group>
   <param name="use_sim_time" value="false" />
@@ -16,7 +17,7 @@
   <node name="map_server" pkg="map_server" type="map_server" args="$(find rbx1_nav)/maps/$(arg map)">
   	<param name="frame_id" value="/map" />
   </node>
-<node pkg="tf" type="static_transform_publisher" name="odom_map_broadcaster" args="0 0 0 0 0 0 /map robot1/odom 5" />
+<!--  node pkg="tf" type="static_transform_publisher" name="odom_map_broadcaster" args="0 0 0 0 0 0 /map robot1/odom 5" / -->
   
 <group ns="robot1">
 	<param name="tf_prefix" value="robot1" />
