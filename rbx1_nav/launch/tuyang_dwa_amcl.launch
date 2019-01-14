@@ -5,11 +5,12 @@
   
   <!-- EDIT THIS LINE TO REFLECT THE NAME OF YOUR OWN MAP FILE 
        Can also be overridden on the command line -->
-  <arg name="map" default="test_map.yaml" />
   
-  <!-- Run the map server with the desired map -->
+  
+  <!-- Run the map server with the desired map
+  <arg name="map" default="test_map.yaml" />
   <node name="map_server" pkg="map_server" type="map_server" args="$(find rbx1_nav)/maps/$(arg map)"/>
-
+  -->
   <!-- Start move_base  -->
   <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
     <rosparam file="$(find rbx1_nav)/config/dwa/move_base_params.yaml" command="load" />
@@ -23,9 +24,10 @@
   <!-- Fire up AMCL -->
   <include file="$(find rbx1_nav)/launch/tb_amcl.launch" />
   
-  <!-- Start the navigation test -->
+  <!-- Start the navigation test 
   <node pkg="rbx1_nav" type="speech_nav.py" name="speech_nav" output="screen">
     <param name="rest_time" value="10" />
     <param name="fake_test" value="false" />
   </node>
+  -->
 </launch>
