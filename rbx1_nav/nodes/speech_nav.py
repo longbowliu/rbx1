@@ -78,11 +78,11 @@ class NavTest():
         self.locations['comeback'] = Pose(Point(0.12243,0.0079,0), Quaternion( 0,0,-0.2534,0.9673))
         
         # Publisher to manually control the robot (e.g. to stop it, queue_size=5)
-        self.cmd_vel_pub = rospy.Publisher('robot1/cmd_vel', Twist, queue_size=5)
-        self.move_base = actionlib.SimpleActionClient("robot1/move_base", MoveBaseAction)
-        rospy.loginfo("Waiting for move_base1 action server...")
-        self.move_base.wait_for_server(rospy.Duration(60))
-        rospy.loginfo("Connected to move base1 server")
+#         self.cmd_vel_pub = rospy.Publisher('robot1/cmd_vel', Twist, queue_size=5)
+#         self.move_base = actionlib.SimpleActionClient("robot1/move_base", MoveBaseAction)
+#         rospy.loginfo("Waiting for move_base1 action server...")
+#         self.move_base.wait_for_server(rospy.Duration(60))
+#         rospy.loginfo("Connected to move base1 server")
         
         self.cmd_vel_pub2 = rospy.Publisher('cmd_vel', Twist, queue_size=5)
         self.move_base2 = actionlib.SimpleActionClient("move_base", MoveBaseAction)
@@ -225,6 +225,7 @@ class NavTest():
                     rospy.loginfo("State:" + str(state))
                 else:
                   rospy.loginfo("Goal failed with error code: " + str(self.goal_states[state])) 
+    '''
     def cb_nav_multi(self,my_path): 
 #         print "hello *********"
         print len(my_path.path.poses)
@@ -270,7 +271,7 @@ class NavTest():
                       rospy.loginfo("Goal failed with error code: " + str(self.goal_states[state]))
         
 #         for in  path:
-        
+  '''      
     def speech_command(self,command): 
         #self.command = command   
         print    command.data
@@ -331,7 +332,7 @@ class NavTest():
         rospy.loginfo("Stopping the robot...")
         self.move_base.cancel_goal()
         rospy.sleep(2)
-        self.cmd_vel_pub.publish(Twist())
+        self.cmd_vel_pub2.publish(Twist())
         rospy.sleep(1)
       
 def trunc(f, n):
