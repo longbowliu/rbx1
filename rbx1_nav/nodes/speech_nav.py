@@ -42,26 +42,17 @@ from rbx1_nav.msg import myPath
 class NavTest():
     def __init__(self):
         rospy.init_node('nav_test', anonymous=True)
-        
         rospy.on_shutdown(self.shutdown)
-        
         # How long in seconds should the robot pause at each location?
         self.rest_time = rospy.get_param("~rest_time", 10)
-        
         # Are we running in the fake simulator?
         self.fake_test = rospy.get_param("~fake_test", False)
-        
         # Goal state return values
         self.goal_states = ['PENDING', 'ACTIVE', 'PREEMPTED', 
                        'SUCCEEDED', 'ABORTED', 'REJECTED',
                        'PREEMPTING', 'RECALLING', 'RECALLED',
                        'LOST']
         
-        # Set up the goal locations. Poses are defined in the map frame.  
-        # An easy way to find the pose coordinates is to point-and-click
-        # Nav Goals in RViz when running in the simulator.
-        # Pose coordinates are then displayed in the terminal
-        # that was used to launch RViz.
         self.locations = dict()
         '''
         走廊门口：-3.2529；-3.98846;0  0;0；-0.23051;0.97307
@@ -77,17 +68,10 @@ class NavTest():
         self.locations['jifang'] = Pose(Point(-4.5465,0.5764, 0.000), Quaternion(0.000, 0.000, 0.8645,0.50263))
         self.locations['comeback'] = Pose(Point(0.12243,0.0079,0), Quaternion( 0,0,-0.2534,0.9673))
         
-        # Publisher to manually control the robot (e.g. to stop it, queue_size=5)
-        self.cmd_vel_pub = rospy.Publisher('robot1/cmd_vel', Twist, queue_size=5)
-        self.move_base = actionlib.SimpleActionClient("robot1/move_base", MoveBaseAction)
-        rospy.loginfo("Waiting for move_base1 action server...")
+        self.cmd_vel_pub = rospy.Publisher('cmd_vel', Twist, queue_size=5)
+        self.move_base = actionlib.SimpleActionClient("move_base", MoveBaseAction)
+        rospy.loginfo("Waiting for move_base action server...")
         self.move_base.wait_for_server(rospy.Duration(60))
-        rospy.loginfo("Connected to move base1 server")
-        
-        self.cmd_vel_pub2 = rospy.Publisher('cmd_vel', Twist, queue_size=5)
-        self.move_base2 = actionlib.SimpleActionClient("move_base", MoveBaseAction)
-        rospy.loginfo("Waiting for move_base2 action server...")
-        self.move_base2.wait_for_server(rospy.Duration(60))
         rospy.loginfo("Connected to move base server")
         
         # A variable to hold the initial pose of the robot to be set by 
@@ -113,97 +97,8 @@ class NavTest():
         rospy.loginfo("*** Rog_result")
         rospy.Subscriber('Rog_result', String, self.speech_command)
         rospy.Subscriber('nav_multi', myPath , self.cb_nav_multi)
-        rospy.Subscriber('nav_test', myPath , self.cb_nav_multi2)
         
-        '''
-        rospy.wait_for_message('initialpose', PoseWithCovarianceStamped)
-        self.last_location = Pose()
-        # Make sure we have the initial pose
-        
-        while initial_pose.header.stamp == "":
-            rospy.sleep(1)
-            
-        rospy.loginfo("Starting navigation test")
-        
-        # Begin the main loop and run through a sequence of locations
-        while not rospy.is_shutdown():
-            # If we've gone through the current sequence,
-            # start with a new random sequence
-            if i == n_locations:
-                i = 0
-                sequence = sample(self.locations, n_locations)
-                # Skip over first location if it is the same as
-                # the last location
-                if sequence[0] == last_location:
-                    i = 1
-            
-            # Get the next location in the current sequence
-            location = sequence[i]
-                        
-            # Keep track of the distance traveled.
-            # Use updated initial pose if available.
-            if initial_pose.header.stamp == "":
-                distance = sqrt(pow(self.locations[location].position.x - 
-                                    self.locations[last_location].position.x, 2) +
-                                pow(self.locations[location].position.y - 
-                                    self.locations[last_location].position.y, 2))
-            else:
-                rospy.loginfo("Updating current pose.")
-                distance = sqrt(pow(self.locations[location].position.x - 
-                                    initial_pose.pose.pose.position.x, 2) +
-                                pow(self.locations[location].position.y - 
-                                    initial_pose.pose.pose.position.y, 2))
-                initial_pose.header.stamp = ""
-            
-            # Store the last location for distance calculations
-            last_location = location
-            
-            # Increment the counters
-            i += 1
-            n_goals += 1
-        
-            # Set up the next goal location
-            self.goal = MoveBaseGoal()
-            self.goal.target_pose.pose = self.locations[location]
-            self.goal.target_pose.header.frame_id = 'map'
-            self.goal.target_pose.header.stamp = rospy.Time.now()
-            
-            # Let the user know where the robot is going next
-            rospy.loginfo("Going to: " + str(location))
-            
-            # Start the robot toward the next location
-            self.move_base.send_goal(self.goal)
-            
-            # Allow 5 minutes to get there
-            finished_within_time = self.move_base.wait_for_result(rospy.Duration(300)) 
-            
-            # Check for success or failure
-            if not finished_within_time:
-                self.move_base.cancel_goal()
-                rospy.loginfo("Timed out achieving goal")
-            else:
-                state = self.move_base.get_state()
-                if state == GoalStatus.SUCCEEDED:
-                    rospy.loginfo("Goal succeeded!")
-                    n_successes += 1
-                    distance_traveled += distance
-                    rospy.loginfo("State:" + str(state))
-                else:
-                  rospy.loginfo("Goal failed with error code: " + str(self.goal_states[state]))
-            
-            # How long have we been running?
-            running_time = rospy.Time.now() - start_time
-            running_time = running_time.secs / 60.0
-            
-            # Print a summary success/failure, distance traveled and time elapsed
-            rospy.loginfo("Success so far: " + str(n_successes) + "/" + 
-                          str(n_goals) + " = " + 
-                          str(100 * n_successes/n_goals) + "%")
-            rospy.loginfo("Running time: " + str(trunc(running_time, 1)) + 
-                          " min Distance: " + str(trunc(distance_traveled, 1)) + " m")
-            rospy.sleep(self.rest_time)
-        '''
-    def cb_nav_multi2(self,my_path):
+    def cb_nav_multi(self,my_path):
         robotName = my_path.name;
         print "robot Name: ",robotName
         print "position numbers :",len(my_path.path.poses)
@@ -213,66 +108,20 @@ class NavTest():
             self.goal.target_pose.pose = PoseStamped.pose
             self.goal.target_pose.header.frame_id = 'map'
             self.goal.target_pose.header.stamp = rospy.Time.now()
-            self.move_base2.send_goal(self.goal)
-            finished_within_time = self.move_base2.wait_for_result(rospy.Duration(300)) 
+            self.move_base.send_goal(self.goal)
+            finished_within_time = self.move_base.wait_for_result(rospy.Duration(300)) 
             if not finished_within_time:
-                self.move_base2.cancel_goal()
+                self.move_base.cancel_goal()
                 rospy.loginfo("Timed out achieving goal")
             else:
-                state = self.move_base2.get_state()
+                state = self.move_base.get_state()
                 if state == GoalStatus.SUCCEEDED:
                     rospy.loginfo("Goal succeeded!")
                     rospy.loginfo("State:" + str(state))
                 else:
                   rospy.loginfo("Goal failed with error code: " + str(self.goal_states[state])) 
-    def cb_nav_multi(self,my_path): 
-#         print "hello *********"
-        print len(my_path.path.poses)
-        robotName = my_path.name;
-        print "robot Name: ",robotName
-        for PoseStamped in my_path.path.poses:
-            print PoseStamped.pose.position
-            self.goal = MoveBaseGoal()
-#             self.goal.target_pose.pose = self.locations['small_meeting']
-            self.goal.target_pose.pose = PoseStamped.pose
-            self.goal.target_pose.header.frame_id = 'map'
-            self.goal.target_pose.header.stamp = rospy.Time.now()
-            
-            # Let the user know where the robot is going next
-            rospy.loginfo("Going to longbow")
-            
-            # Start the robot toward the next location
-            if robotName == "Robot1" :
-                self.move_base.send_goal(self.goal)
-                finished_within_time = self.move_base.wait_for_result(rospy.Duration(300)) 
-                if not finished_within_time:
-                    self.move_base.cancel_goal()
-                    rospy.loginfo("Timed out achieving goal")
-                else:
-                    state = self.move_base.get_state()
-                    if state == GoalStatus.SUCCEEDED:
-                        rospy.loginfo("Goal succeeded!")
-                        rospy.loginfo("State:" + str(state))
-                    else:
-                      rospy.loginfo("Goal failed with error code: " + str(self.goal_states[state]))
-            else:
-                self.move_base2.send_goal(self.goal)
-                finished_within_time = self.move_base2.wait_for_result(rospy.Duration(300)) 
-                if not finished_within_time:
-                    self.move_base2.cancel_goal()
-                    rospy.loginfo("Timed out achieving goal")
-                else:
-                    state = self.move_base2.get_state()
-                    if state == GoalStatus.SUCCEEDED:
-                        rospy.loginfo("Goal succeeded!")
-                        rospy.loginfo("State:" + str(state))
-                    else:
-                      rospy.loginfo("Goal failed with error code: " + str(self.goal_states[state]))
-        
-#         for in  path:
-        
+
     def speech_command(self,command): 
-        #self.command = command   
         print    command.data
         if command.data == "开始导航":
             print "ok"
@@ -331,7 +180,7 @@ class NavTest():
         rospy.loginfo("Stopping the robot...")
         self.move_base.cancel_goal()
         rospy.sleep(2)
-        self.cmd_vel_pub.publish(Twist())
+        self.cmd_vel_pub2.publish(Twist())
         rospy.sleep(1)
       
 def trunc(f, n):
