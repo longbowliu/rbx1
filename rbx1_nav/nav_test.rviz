@@ -5,6 +5,12 @@ Panels:
     Property Tree Widget:
       Expanded:
         - /Global Options1
+        - /RobotModel1
+        - /RobotModel1/Links1
+        - /RobotModel1/Links1/robot1/base_link1
+        - /RobotModel2
+        - /RobotModel2/Links1
+        - /RobotModel2/Links1/base_link1
       Splitter Ratio: 0.652661026
     Tree Height: 481
   - Class: rviz/Selection
@@ -14,6 +20,7 @@ Panels:
       - /Interact1
       - /2D Pose Estimate1
       - /2D Nav Goal1
+      - /Plant Flag1
     Name: Tool Properties
     Splitter Ratio: 0.514138997
   - Class: rviz/Views
@@ -60,42 +67,42 @@ Visualization Manager:
         Expand Link Details: false
         Expand Tree: false
         Link Tree Style: Links in Alphabetic Order
-        base_l1_wheel_link:
+        robot1/base_l1_wheel_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        base_l2_wheel_link:
+        robot1/base_l2_wheel_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        base_laser_bottom:
+        robot1/base_laser_bottom:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        base_laser_middle:
+        robot1/base_laser_middle:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        base_link:
+        robot1/base_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        base_r1_wheel_link:
+        robot1/base_r1_wheel_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        base_r2_wheel_link:
+        robot1/base_r2_wheel_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        laser:
+        robot1/laser:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -253,25 +260,46 @@ Visualization Manager:
     - Class: rviz/SetGoal
       Topic: /move_base_simple/goal
     - Class: rviz_plugin_tutorials/PlantFlag
-      Flags: ~
+      Flags:
+        - Name: "Robot0 : 1"
+          X: 2.29290795
+          Y: -0.873559415
+          Z: 0
+        - Name: "Robot0 : 2"
+          X: 1.90143371
+          Y: 0.41550386
+          Z: 0
+        - Name: "Robot1 : 1"
+          X: 0.354920119
+          Y: 1.00511861
+          Z: 0
+        - Name: "Robot1 : 2"
+          X: -0.665247083
+          Y: 0.487730145
+          Z: 0
   Value: true
   Views:
     Current:
-      Angle: 3.13000011
-      Class: rviz/TopDownOrtho
+      Class: rviz/XYOrbit
+      Distance: 19.7382278
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.0599999987
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
+      Focal Point:
+        X: 0
+        Y: 0
+        Z: 0
+      Focal Shape Fixed Size: true
+      Focal Shape Size: 0.0500000007
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.00999999978
-      Scale: 50.9066048
+      Pitch: 1.45979643
       Target Frame: <Fixed Frame>
-      Value: TopDownOrtho (rviz)
-      X: 1.81681001
-      Y: -1.84899998
+      Value: XYOrbit (rviz)
+      Yaw: 1.98539627
     Saved: ~
 Window Geometry:
   Displays:
@@ -279,7 +307,7 @@ Window Geometry:
   Height: 1056
   Hide Left Dock: false
   Hide Right Dock: false
-  QMainWindow State: 000000ff00000000fd00000004000000000000017b000003dafc0200000005fb0000001200530065006c0065006300740069006f006e00000001e10000009b0000006100fffffffb000000120056006900650077007300200054006f006f02000001df000002110000018500000122fb000000200054006f006f006c002000500072006f0070006500720074006900650073003203000002880000011d000002210000017afb000000100044006900730070006c006100790073010000002800000270000000d700fffffffb0000000a00560069006500770073010000029e00000164000000ad00ffffff0000000100000187000003dafc0200000004fb0000001e0054006f006f006c002000500072006f00700065007200740069006500730100000028000001be0000006100fffffffb0000000c00540065006c0065006f007001000001ec000002160000004900fffffffb0000001e0054006f006f006c002000500072006f0070006500720074006900650073010000022a000001d80000000000000000fb0000001200530065006c0065006300740069006f006e010000025a000000b200000000000000000000000200000490000000a9fc0100000001fb0000000a00560069006500770073030000004e00000080000002e10000019700000003000004a00000003efc0100000002fb0000000800540069006d00650000000000000004a00000030000fffffffb0000000800540069006d0065010000000000000450000000000000000000000431000003da00000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
+  QMainWindow State: 000000ff00000000fd000000040000000000000269000003dafc0200000005fb0000001200530065006c0065006300740069006f006e00000001e10000009b0000006100fffffffb000000120056006900650077007300200054006f006f02000001df000002110000018500000122fb000000200054006f006f006c002000500072006f0070006500720074006900650073003203000002880000011d000002210000017afb000000100044006900730070006c006100790073010000002800000270000000d700fffffffb0000000a00560069006500770073010000029e00000164000000ad00ffffff0000000100000187000003dafc0200000004fb0000001e0054006f006f006c002000500072006f00700065007200740069006500730100000028000001be0000006100fffffffb0000000c00540065006c0065006f007001000001ec000002160000004900fffffffb0000001e0054006f006f006c002000500072006f0070006500720074006900650073010000022a000001d80000000000000000fb0000001200530065006c0065006300740069006f006e010000025a000000b200000000000000000000000200000490000000a9fc0100000001fb0000000a00560069006500770073030000004e00000080000002e10000019700000003000004a00000003efc0100000002fb0000000800540069006d00650000000000000004a00000030000fffffffb0000000800540069006d0065010000000000000450000000000000000000000343000003da00000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
   Selection:
     collapsed: false
   Teleop:
