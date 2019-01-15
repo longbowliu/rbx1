@@ -9,14 +9,15 @@
  </group>
   <param name="use_sim_time" value="false" />
   
-  <!-- EDIT THIS LINE TO REFLECT THE NAME OF YOUR OWN MAP FILE 
-       Can also be overridden on the command line -->
-  <arg name="map" default="test_map.yaml" />
+
   
-  <!-- Run the map server with the desired map -->
+  <!-- Run the map server with the desired map 
+	 <arg name="map" default="test_map.yaml" />
   <node name="map_server" pkg="map_server" type="map_server" args="$(find rbx1_nav)/maps/$(arg map)">
   	<param name="frame_id" value="/map" />
   </node>
+
+-->
 <!--  node pkg="tf" type="static_transform_publisher" name="odom_map_broadcaster" args="0 0 0 0 0 0 /map robot1/odom 5" / -->
   
 <group ns="robot1">
@@ -24,13 +25,16 @@
 	<param name="amcl/initial_pose_x" value="-1" />
     <param name="amcl/initial_pose_y" value="1" />
 	<include file="$(find rbx1_nav)/launch/al_move_base.launch"/>
- </group>
 
-  
-  <!-- Start the navigation test 
+  <!-- Start the navigation test  -->
   <node pkg="rbx1_nav" type="speech_nav.py" name="speech_nav" output="screen">
     <param name="rest_time" value="10" />
     <param name="fake_test" value="false" />
   </node>
-  -->
+
+ </group>
+
+  
+ 
+ 
 </launch>
