@@ -34,7 +34,7 @@ max_vel_y: 0.0
 min_vel_y: 0.0
 
 # The absolute value of the maximum rotational velocity for the robot in rad/s (double, default: 1.0)
-max_rot_vel: 0.4
+max_rot_vel: 0.2
 
 # The absolute value of the minimum rotational velocity for the robot in rad/s (double, default: 0.4)
 min_rot_vel: 0.1
