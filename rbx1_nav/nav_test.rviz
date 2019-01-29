@@ -6,9 +6,8 @@ Panels:
       Expanded:
         - /Global Options1
         - /RobotModel1/Links1
-        - /Map1
-        - /LaserScan1
-      Splitter Ratio: 0.652661
+        - /Path1
+      Splitter Ratio: 0.652661026
     Tree Height: 481
   - Class: rviz/Selection
     Name: Selection
@@ -17,8 +16,9 @@ Panels:
       - /Interact1
       - /2D Pose Estimate1
       - /2D Nav Goal1
+      - /Plant Flag1
     Name: Tool Properties
-    Splitter Ratio: 0.514139
+    Splitter Ratio: 0.514138997
   - Class: rviz/Views
     Expanded:
       - /Current View1
@@ -41,7 +41,7 @@ Visualization Manager:
       Color: 0; 0; 0
       Enabled: true
       Line Style:
-        Line Width: 0.03
+        Line Width: 0.0299999993
         Value: Lines
       Name: Grid
       Normal Cell Count: 0
@@ -104,20 +104,21 @@ Visualization Manager:
       Update Interval: 0
       Value: true
       Visual Enabled: true
-    - Alpha: 0.7
+    - Alpha: 0.699999988
       Class: rviz/Map
       Color Scheme: map
       Draw Behind: true
       Enabled: true
       Name: Map
-      Topic: /robot1/map
+      Topic: /map
       Unreliable: false
+      Use Timestamp: false
       Value: true
     - Alpha: 1
       Autocompute Intensity Bounds: true
       Autocompute Value Bounds:
-        Max Value: 0.304
-        Min Value: 0.304
+        Max Value: 0.30399999
+        Min Value: 0.30399999
         Value: true
       Axis: Z
       Channel Name: intensity
@@ -136,9 +137,9 @@ Visualization Manager:
       Queue Size: 10
       Selectable: true
       Size (Pixels): 3
-      Size (m): 0.01
+      Size (m): 0.00999999978
       Style: Points
-      Topic: /robot1/scan
+      Topic: /scan
       Unreliable: false
       Use Fixed Frame: true
       Use rainbow: true
@@ -152,9 +153,33 @@ Visualization Manager:
       Show Visual Aids: false
       Update Topic: /menu/update
       Value: true
+    - Alpha: 1
+      Buffer Length: 3
+      Class: rviz/Path
+      Color: 25; 255; 0
+      Enabled: true
+      Head Diameter: 0.300000012
+      Head Length: 0.200000003
+      Length: 0.300000012
+      Line Style: Lines
+      Line Width: 0.0299999993
+      Name: Path
+      Offset:
+        X: 0
+        Y: 0
+        Z: 0
+      Pose Color: 255; 85; 255
+      Pose Style: None
+      Radius: 0.0299999993
+      Shaft Diameter: 0.100000001
+      Shaft Length: 0.100000001
+      Topic: /move_base/DWAPlannerROS/global_plan
+      Unreliable: false
+      Value: true
   Enabled: true
   Global Options:
     Background Color: 0; 0; 0
+    Default Light: true
     Fixed Frame: map
     Frame Rate: 30
   Name: root
@@ -168,24 +193,33 @@ Visualization Manager:
     - Class: rviz/SetGoal
       Topic: /move_base_simple/goal
     - Class: rviz_plugin_tutorials/PlantFlag
-      Flags: ~
+      Flags:
+        - Name: "Robot0 : 1"
+          X: 2.4079814
+          Y: 1.4074136
+          Z: 0
+        - Name: "Robot0 : 2"
+          X: 0.887483835
+          Y: 1.94029403
+          Z: 0
   Value: true
   Views:
     Current:
-      Angle: 3.13
+      Angle: 3.13000011
       Class: rviz/TopDownOrtho
       Enable Stereo Rendering:
-        Stereo Eye Separation: 0.06
+        Stereo Eye Separation: 0.0599999987
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
+      Invert Z Axis: false
       Name: Current View
-      Near Clip Distance: 0.01
-      Scale: 52.405
+      Near Clip Distance: 0.00999999978
+      Scale: 52.4049988
       Target Frame: <Fixed Frame>
       Value: TopDownOrtho (rviz)
-      X: 1.81681
-      Y: -1.849
+      X: 1.81681001
+      Y: -1.84899998
     Saved: ~
 Window Geometry:
   Displays:
@@ -193,7 +227,7 @@ Window Geometry:
   Height: 1056
   Hide Left Dock: false
   Hide Right Dock: false
-  QMainWindow State: 000000ff00000000fd00000004000000000000017b000003dafc0200000005fb0000001200530065006c0065006300740069006f006e00000001e10000009b0000006400fffffffb000000120056006900650077007300200054006f006f02000001df000002110000018500000122fb000000200054006f006f006c002000500072006f0070006500720074006900650073003203000002880000011d000002210000017afb000000100044006900730070006c006100790073010000002800000270000000dd00fffffffb0000000a00560069006500770073010000029e00000164000000b000ffffff0000000100000187000003dafc0200000004fb0000001e0054006f006f006c002000500072006f00700065007200740069006500730100000028000001be0000006400fffffffb0000000c00540065006c0065006f007001000001ec000002160000004900fffffffb0000001e0054006f006f006c002000500072006f0070006500720074006900650073010000022a000001d80000000000000000fb0000001200530065006c0065006300740069006f006e010000025a000000b200000000000000000000000200000490000000a9fc0100000001fb0000000a00560069006500770073030000004e00000080000002e10000019700000003000004a00000003efc0100000002fb0000000800540069006d00650000000000000004a0000002f600fffffffb0000000800540069006d0065010000000000000450000000000000000000000431000003da00000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
+  QMainWindow State: 000000ff00000000fd00000004000000000000017b000003dafc0200000005fb0000001200530065006c0065006300740069006f006e00000001e10000009b0000006100fffffffb000000120056006900650077007300200054006f006f02000001df000002110000018500000122fb000000200054006f006f006c002000500072006f0070006500720074006900650073003203000002880000011d000002210000017afb000000100044006900730070006c006100790073010000002800000270000000d700fffffffb0000000a00560069006500770073010000029e00000164000000ad00ffffff0000000100000187000003dafc0200000004fb0000001e0054006f006f006c002000500072006f00700065007200740069006500730100000028000001be0000006100fffffffb0000000c00540065006c0065006f007001000001ec000002160000004900fffffffb0000001e0054006f006f006c002000500072006f0070006500720074006900650073010000022a000001d80000000000000000fb0000001200530065006c0065006300740069006f006e010000025a000000b200000000000000000000000200000490000000a9fc0100000001fb0000000a00560069006500770073030000004e00000080000002e10000019700000003000004a00000003efc0100000002fb0000000800540069006d00650000000000000004a00000030000fffffffb0000000800540069006d0065010000000000000450000000000000000000000431000003da00000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
   Selection:
     collapsed: false
   Teleop:

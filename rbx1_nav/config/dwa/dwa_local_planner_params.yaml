@@ -51,7 +51,7 @@ trans_stopped_vel: 0.1
 yaw_goal_tolerance: 6.28
 
 # The tolerance in meters for the controller in the x & y distance when achieving a goal (double, default: 0.10)
-xy_goal_tolerance: 0.05
+xy_goal_tolerance: 0.10
 
 # If goal tolerance is latched, if the robot ever reaches the goal xy location it will simply rotate in place, even if it ends up outside the goal tolerance while it is doing so. (bool, default: false)
 latch_xy_goal_tolerance: false
